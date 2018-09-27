@@ -151,7 +151,7 @@ export class DemoComponent implements OnInit {
 
   doctors() {
     this.http
-      .get('http://ec2-54-145-167-89.compute-1.amazonaws.com/api/medicos')
+      .get('https://ec2-54-145-167-89.compute-1.amazonaws.com/api/medicos')
       .toPromise()
       .then(resp => {
         this.doctorss = resp.json().data.map(element => {
@@ -165,7 +165,7 @@ export class DemoComponent implements OnInit {
 
   patients() {
     this.http
-      .get(`http://ec2-54-145-167-89.compute-1.amazonaws.com/api/pacientes`)
+      .get(`https://ec2-54-145-167-89.compute-1.amazonaws.com/api/pacientes`)
       .toPromise()
       .then(resp => {
         this.patientss = resp.json().data.map(element => {
@@ -181,7 +181,7 @@ export class DemoComponent implements OnInit {
   commitments() {
     this.events = [];
     this.http
-      .get(`http://ec2-54-145-167-89.compute-1.amazonaws.com/api/agendas?medico_id=${this.doctor1}`)
+      .get(`https://ec2-54-145-167-89.compute-1.amazonaws.com/api/agendas?medico_id=${this.doctor1}`)
       .toPromise()
       .then(resp => {
         resp.json().data.forEach(element => {
@@ -208,7 +208,7 @@ export class DemoComponent implements OnInit {
 
   delete(id: number) {
     this.http
-      .delete(`http://ec2-54-145-167-89.compute-1.amazonaws.com/api/agendas/${id}`)
+      .delete(`https://ec2-54-145-167-89.compute-1.amazonaws.com/api/agendas/${id}`)
       .toPromise()
       .then(resp => {
         this.commitments();
@@ -255,7 +255,7 @@ export class DemoComponent implements OnInit {
     } else {
 
       this.http
-      .post(`http://ec2-54-145-167-89.compute-1.amazonaws.com/api/agendas`, {
+      .post(`https://ec2-54-145-167-89.compute-1.amazonaws.com/api/agendas`, {
         datahora: this.dateEvent,
         medico_id: this.doctor1,
         paciente_id: this.patient1

@@ -89,8 +89,8 @@ export class DemoAppComponent implements OnInit {
 
   constructor(private router: Router, private http: Http) {
     window.sessionStorage.clear();
-    http
-      .post('http://api.agenda/oauth/token', {
+    /*http
+      .post('https://api.agenda/oauth/token', {
         grant_type: 'password',
         client_id: 2,
         client_secret: '5X1Cq0c4zJTkDFKxJiN2OVWHaSd4f7WqTqDDDFuV',
@@ -104,7 +104,7 @@ export class DemoAppComponent implements OnInit {
       })
       .catch(responseError => {
         console.error(responseError.status);
-      });
+      });*/
   }
 
   ngOnInit() {

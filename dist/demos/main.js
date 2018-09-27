@@ -4630,22 +4630,22 @@ var DemoAppComponent = /** @class */ (function () {
         this.isMenuVisible = false;
         this.firstDemoLoaded = false;
         window.sessionStorage.clear();
-        http
-            .post('http://api.agenda/oauth/token', {
+        /*http
+          .post('https://api.agenda/oauth/token', {
             grant_type: 'password',
             client_id: 2,
             client_secret: '5X1Cq0c4zJTkDFKxJiN2OVWHaSd4f7WqTqDDDFuV',
             username: 'milton@gmail.com',
             password: '123456'
-        })
-            .toPromise()
-            .then(function (response) {
+          })
+          .toPromise()
+          .then(response => {
             console.log(response.json());
             window.sessionStorage.setItem('token', JSON.stringify(response.json()));
-        })
-            .catch(function (responseError) {
+          })
+          .catch(responseError => {
             console.error(responseError.status);
-        });
+          });*/
     }
     DemoAppComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -5430,7 +5430,7 @@ var DemoComponent = /** @class */ (function () {
     DemoComponent.prototype.doctors = function () {
         var _this = this;
         this.http
-            .get('http://ec2-54-145-167-89.compute-1.amazonaws.com/api/medicos')
+            .get('https://ec2-54-145-167-89.compute-1.amazonaws.com/api/medicos')
             .toPromise()
             .then(function (resp) {
             _this.doctorss = resp.json().data.map(function (element) {
@@ -5444,7 +5444,7 @@ var DemoComponent = /** @class */ (function () {
     DemoComponent.prototype.patients = function () {
         var _this = this;
         this.http
-            .get("http://ec2-54-145-167-89.compute-1.amazonaws.com/api/pacientes")
+            .get("https://ec2-54-145-167-89.compute-1.amazonaws.com/api/pacientes")
             .toPromise()
             .then(function (resp) {
             _this.patientss = resp.json().data.map(function (element) {
@@ -5460,7 +5460,7 @@ var DemoComponent = /** @class */ (function () {
         var _this = this;
         this.events = [];
         this.http
-            .get("http://ec2-54-145-167-89.compute-1.amazonaws.com/api/agendas?medico_id=" + this.doctor1)
+            .get("https://ec2-54-145-167-89.compute-1.amazonaws.com/api/agendas?medico_id=" + this.doctor1)
             .toPromise()
             .then(function (resp) {
             resp.json().data.forEach(function (element) {
@@ -5486,7 +5486,7 @@ var DemoComponent = /** @class */ (function () {
     DemoComponent.prototype.delete = function (id) {
         var _this = this;
         this.http
-            .delete("http://ec2-54-145-167-89.compute-1.amazonaws.com/api/agendas/" + id)
+            .delete("https://ec2-54-145-167-89.compute-1.amazonaws.com/api/agendas/" + id)
             .toPromise()
             .then(function (resp) {
             _this.commitments();
@@ -5526,7 +5526,7 @@ var DemoComponent = /** @class */ (function () {
         }
         else {
             this.http
-                .post("http://ec2-54-145-167-89.compute-1.amazonaws.com/api/agendas", {
+                .post("https://ec2-54-145-167-89.compute-1.amazonaws.com/api/agendas", {
                 datahora: this.dateEvent,
                 medico_id: this.doctor1,
                 paciente_id: this.patient1
