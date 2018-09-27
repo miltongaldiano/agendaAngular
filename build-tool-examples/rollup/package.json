@@ -1,0 +1,38 @@
+{
+  "name": "angular-calendar-rollup-example",
+  "version": "1.0.0",
+  "private": true,
+  "author": "Matt Lewis",
+  "license": "MIT",
+  "dependencies": {
+    "@angular/animations": "^6.1.6",
+    "@angular/common": "^6.1.6",
+    "@angular/compiler": "^6.1.6",
+    "@angular/core": "^6.1.6",
+    "@angular/forms": "^6.1.6",
+    "@angular/platform-browser": "^6.1.6",
+    "@angular/platform-browser-dynamic": "^6.1.6",
+    "angular-calendar": "^0.26.0",
+    "core-js": "^2.5.7",
+    "date-fns": "^1.29.0",
+    "reflect-metadata": "^0.1.12",
+    "rxjs": "^6.3.1",
+    "zone.js": "^0.8.26"
+  },
+  "devDependencies": {
+    "@types/core-js": "^2.5.0",
+    "@types/node": "^10.9.4",
+    "lite-server": "^2.4.0",
+    "rollup": "^0.65.0",
+    "rollup-plugin-commonjs": "^9.1.6",
+    "rollup-plugin-css-only": "^0.4.0",
+    "rollup-plugin-node-resolve": "^3.3.0",
+    "rollup-plugin-typescript": "^0.8.1",
+    "typescript": "^2.9.2"
+  },
+  "scripts": {
+    "rollup": "rollup -f iife -c rollup.config.js -o dist/bundle.js",
+    "prestart": "npm run rollup",
+    "start": "lite-server"
+  }
+}

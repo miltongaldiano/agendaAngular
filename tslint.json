@@ -1,0 +1,8 @@
+{
+  "extends": "tslint-config-mwl",
+  "rules": {
+    "use-host-property-decorator": false,
+    "no-inferrable-types": false,
+    "max-inline-declarations": false
+  }
+}

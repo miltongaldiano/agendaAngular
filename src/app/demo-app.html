@@ -1,0 +1,35 @@
+<ng-template  #loading>
+  <div class="card">
+    <div class="card-body text-center">
+      <i class="fa fa-spin fa-spinner fa-5x"></i>
+      <br>
+      Aguarde...
+    </div>
+  </div>
+</ng-template>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+
+      <div class="card" *ngIf="firstDemoLoaded; else loading">
+        <div class="card-body">
+
+          <ngb-tabset [destroyOnHide]="false">
+
+            <ngb-tab>
+              <ng-template ngbTabTitle>
+                <i class="fa fa-fw fa-laptop"></i> Agenda Médica
+              </ng-template>
+              <ng-template ngbTabContent>
+                <div class="spacer-top"><router-outlet></router-outlet></div>
+              </ng-template>
+            </ngb-tab>
+
+
+          </ngb-tabset>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
