@@ -5430,7 +5430,7 @@ var DemoComponent = /** @class */ (function () {
     DemoComponent.prototype.doctors = function () {
         var _this = this;
         this.http
-            .get('https://ec2-54-145-167-89.compute-1.amazonaws.com/api/medicos')
+            .get('http://ec2-54-145-167-89.compute-1.amazonaws.com/api/medicos')
             .toPromise()
             .then(function (resp) {
             _this.doctorss = resp.json().data.map(function (element) {
@@ -5444,7 +5444,7 @@ var DemoComponent = /** @class */ (function () {
     DemoComponent.prototype.patients = function () {
         var _this = this;
         this.http
-            .get("https://ec2-54-145-167-89.compute-1.amazonaws.com/api/pacientes")
+            .get("http://ec2-54-145-167-89.compute-1.amazonaws.com/api/pacientes")
             .toPromise()
             .then(function (resp) {
             _this.patientss = resp.json().data.map(function (element) {
@@ -5460,7 +5460,7 @@ var DemoComponent = /** @class */ (function () {
         var _this = this;
         this.events = [];
         this.http
-            .get("https://ec2-54-145-167-89.compute-1.amazonaws.com/api/agendas?medico_id=" + this.doctor1)
+            .get("http://ec2-54-145-167-89.compute-1.amazonaws.com/api/agendas?medico_id=" + this.doctor1)
             .toPromise()
             .then(function (resp) {
             resp.json().data.forEach(function (element) {
@@ -5486,7 +5486,7 @@ var DemoComponent = /** @class */ (function () {
     DemoComponent.prototype.delete = function (id) {
         var _this = this;
         this.http
-            .delete("https://ec2-54-145-167-89.compute-1.amazonaws.com/api/agendas/" + id)
+            .delete("http://ec2-54-145-167-89.compute-1.amazonaws.com/api/agendas/" + id)
             .toPromise()
             .then(function (resp) {
             _this.commitments();
@@ -5526,7 +5526,7 @@ var DemoComponent = /** @class */ (function () {
         }
         else {
             this.http
-                .post("https://ec2-54-145-167-89.compute-1.amazonaws.com/api/agendas", {
+                .post("http://ec2-54-145-167-89.compute-1.amazonaws.com/api/agendas", {
                 datahora: this.dateEvent,
                 medico_id: this.doctor1,
                 paciente_id: this.patient1
