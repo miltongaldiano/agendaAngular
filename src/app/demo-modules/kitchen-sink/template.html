@@ -21,14 +21,14 @@
 </ng-template>
 
 <div class="row text-center pre">
-    <div class="col-md-4">
-      <label>Médico:</label>
-      <select class="form-control" name="doctor" id="doctor" [(ngModel)]="doctor1" (change)="commitments()">
-        <option *ngFor="let doctor of doctorss" value="{{ doctor.id }}">{{ doctor.name }}</option>
-      </select>
-    </div>
+  <div class="col-md-4">
+    <label>Médico:</label>
+    <select class="form-control" name="doctor" id="doctor" [(ngModel)]="doctor1" (change)="commitments()">
+      <option *ngFor="let doctor of doctorss" value="{{ doctor.id }}">{{ doctor.name }}</option>
+    </select>
   </div>
-  <br>
+</div>
+<br>
 
 <div class="row text-center">
   <div class="col-md-4">
@@ -43,6 +43,7 @@
       </div>
       <div
         class="btn btn-outline-secondary"
+        id="today"
         mwlCalendarToday
         [(viewDate)]="viewDate">
         Hoje
@@ -115,13 +116,46 @@
 
 <br><br><br>
 
+<div *ngIf="alertNew" class="col-md-12">
+  <span class="alert alert-danger">Selecione a data, o médico e o paciente que irá consultar.</span>
+  <br><br>
+</div>
+
 <h3>
   Consultas
-  <button
-    class="btn btn-primary pull-right"
-    (click)="addEvent()">
-    Add nova
-  </button>
+
+  <table class="table table-bordered">
+    <tr>
+      <td>
+        <label>Data da Consulta</label>
+        <input
+          class="form-control"
+          type="text"
+          mwlFlatpickr
+          [(ngModel)]="dateEvent"
+          [altInput]="true"
+          [enableTime]="true"
+          dateFormat="Y-m-d H:i"
+          altFormat="F j, Y H:i"
+          placeholder="Selecione a data">
+      </td>
+      <td>
+        <label>Paciente</label>
+        <select class="form-control" name="patient" id="patient" [(ngModel)]="patient1" [disabled]="!dateEvent">
+          <option *ngFor="let patientt of patientss" value="{{ patientt.id }}">{{ patientt.name }}</option>
+        </select>
+      </td>
+      <td>
+        <button
+          class="btn btn-primary pull-center"
+          (click)="addEvent()" style="margin-top: 40px">
+          Add nova
+        </button>
+      </td>
+    </tr>
+  </table>
+
+
   <div class="clearfix"></div>
 </h3>
 

@@ -2,7 +2,8 @@ import {
   Component,
   ChangeDetectionStrategy,
   ViewChild,
-  TemplateRef
+  TemplateRef,
+  OnInit
 } from '@angular/core';
 import {
   startOfDay,
@@ -51,7 +52,7 @@ const colors: any = {
   styleUrls: ['styles.css'],
   templateUrl: 'template.html'
 })
-export class DemoComponent {
+export class DemoComponent implements OnInit {
   @ViewChild('modalContent')
   modalContent: TemplateRef<any>;
 
@@ -86,6 +87,13 @@ export class DemoComponent {
 
   doctorss: any[];
   doctor1: number;
+
+  patientss: any[];
+  patient1: number;
+
+  dateEvent: Date;
+
+  alertNew: boolean = false;
 
   events: CalendarEvent[] = [
     // {
@@ -131,8 +139,14 @@ export class DemoComponent {
   activeDayIsOpen: boolean = true;
 
   constructor(private modal: NgbModal, private http: Http) {
+
+  }
+
+  ngOnInit() {
     this.doctors();
     this.commitments();
+    this.patients();
+    document.getElementById('today').click();
   }
 
   doctors() {
@@ -143,6 +157,21 @@ export class DemoComponent {
         this.doctorss = resp.json().data.map(element => {
           return { id: element.id, name: element.nome_medico };
         });
+      })
+      .catch(error => {
+        console.error(error.status);
+      });
+  }
+
+  patients() {
+    this.http
+      .get(`http://api.agenda/api/pacientes`)
+      .toPromise()
+      .then(resp => {
+        this.patientss = resp.json().data.map(element => {
+          return { id: element.id, name: element.nome };
+        });
+        console.log(this.patientss);
       })
       .catch(error => {
         console.error(error.status);
@@ -219,7 +248,28 @@ export class DemoComponent {
   }
 
   addEvent(): void {
-    this.events.push({
+
+    if(!this.dateEvent || !this.doctor1 || !this.patient1) {
+      this.alertNew = true;
+    } else {
+
+      this.http
+      .post(`http://api.agenda/api/agendas`, {
+        datahora: this.dateEvent,
+        medico_id: this.doctor1,
+        paciente_id: this.patient1
+      })
+      .toPromise()
+      .then(resp => {
+        this.commitments();
+      })
+      .catch(error => {
+        console.error(error.status);
+      });
+
+    }
+
+    /*this.events.push({
       title: 'New event',
       start: startOfDay(new Date()),
       end: endOfDay(new Date()),
@@ -230,6 +280,6 @@ export class DemoComponent {
         afterEnd: true
       }
     });
-    this.refresh.next();
+    this.refresh.next();*/
   }
 }
