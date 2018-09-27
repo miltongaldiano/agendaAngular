@@ -5378,6 +5378,7 @@ var DemoComponent = /** @class */ (function () {
             }
         ];
         this.refresh = new rxjs__WEBPACK_IMPORTED_MODULE_2__["Subject"]();
+        this.alertNew = false;
         this.events = [
         // {
         //   start: subDays(startOfDay(new Date()), 1),
@@ -5419,9 +5420,13 @@ var DemoComponent = /** @class */ (function () {
         // }
         ];
         this.activeDayIsOpen = true;
+    }
+    DemoComponent.prototype.ngOnInit = function () {
         this.doctors();
         this.commitments();
-    }
+        this.patients();
+        document.getElementById('today').click();
+    };
     DemoComponent.prototype.doctors = function () {
         var _this = this;
         this.http
@@ -5431,6 +5436,21 @@ var DemoComponent = /** @class */ (function () {
             _this.doctorss = resp.json().data.map(function (element) {
                 return { id: element.id, name: element.nome_medico };
             });
+        })
+            .catch(function (error) {
+            console.error(error.status);
+        });
+    };
+    DemoComponent.prototype.patients = function () {
+        var _this = this;
+        this.http
+            .get("http://api.agenda/api/pacientes")
+            .toPromise()
+            .then(function (resp) {
+            _this.patientss = resp.json().data.map(function (element) {
+                return { id: element.id, name: element.nome };
+            });
+            console.log(_this.patientss);
         })
             .catch(function (error) {
             console.error(error.status);
@@ -5500,18 +5520,37 @@ var DemoComponent = /** @class */ (function () {
         this.modal.open(this.modalContent, { size: 'lg' });
     };
     DemoComponent.prototype.addEvent = function () {
-        this.events.push({
-            title: 'New event',
-            start: Object(date_fns__WEBPACK_IMPORTED_MODULE_1__["startOfDay"])(new Date()),
-            end: Object(date_fns__WEBPACK_IMPORTED_MODULE_1__["endOfDay"])(new Date()),
-            color: colors.red,
-            draggable: true,
-            resizable: {
-                beforeStart: true,
-                afterEnd: true
-            }
+        var _this = this;
+        if (!this.dateEvent || !this.doctor1 || !this.patient1) {
+            this.alertNew = true;
+        }
+        else {
+            this.http
+                .post("http://api.agenda/api/agendas", {
+                datahora: this.dateEvent,
+                medico_id: this.doctor1,
+                paciente_id: this.patient1
+            })
+                .toPromise()
+                .then(function (resp) {
+                _this.commitments();
+            })
+                .catch(function (error) {
+                console.error(error.status);
+            });
+        }
+        /*this.events.push({
+          title: 'New event',
+          start: startOfDay(new Date()),
+          end: endOfDay(new Date()),
+          color: colors.red,
+          draggable: true,
+          resizable: {
+            beforeStart: true,
+            afterEnd: true
+          }
         });
-        this.refresh.next();
+        this.refresh.next();*/
     };
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewChild"])('modalContent'),
@@ -5598,7 +5637,7 @@ var DemoModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "h3 {\n  margin: 0 0 10px;\n}\n\npre {\n  background-color: #f5f5f5;\n  padding: 15px;\n}\n\n.doctor {\n  margin-bottom: 20px;\n}\n"
+module.exports = "h3 {\n  margin: 0 0 10px;\n}\n\npre {\n  background-color: #f5f5f5;\n  padding: 15px;\n}\n\n.doctor {\n  margin-bottom: 20px;\n}\n\n.alertNew {\n  margin-bottom: 50px;\n}\n"
 
 /***/ }),
 
@@ -5609,7 +5648,7 @@ module.exports = "h3 {\n  margin: 0 0 10px;\n}\n\npre {\n  background-color: #f5
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<ng-template #modalContent let-close=\"close\">\n  <div class=\"modal-header\">\n    <h5 class=\"modal-title\">Event action occurred</h5>\n    <button type=\"button\" class=\"close\" (click)=\"close()\">\n      <span aria-hidden=\"true\">&times;</span>\n    </button>\n  </div>\n  <div class=\"modal-body\">\n    <div>\n      Action:\n      <pre>{{ modalData?.action }}</pre>\n    </div>\n    <div>\n      Event:\n      <pre>{{ modalData?.event | json }}</pre>\n    </div>\n  </div>\n  <div class=\"modal-footer\">\n    <button type=\"button\" class=\"btn btn-outline-secondary\" (click)=\"close()\">OK</button>\n  </div>\n</ng-template>\n\n<div class=\"row text-center pre\">\n    <div class=\"col-md-4\">\n      <label>Médico:</label>\n      <select class=\"form-control\" name=\"doctor\" id=\"doctor\" [(ngModel)]=\"doctor1\" (change)=\"commitments()\">\n        <option *ngFor=\"let doctor of doctorss\" value=\"{{ doctor.id }}\">{{ doctor.name }}</option>\n      </select>\n    </div>\n  </div>\n  <br>\n\n<div class=\"row text-center\">\n  <div class=\"col-md-4\">\n    <div class=\"btn-group\">\n      <div\n        class=\"btn btn-primary\"\n        mwlCalendarPreviousView\n        [view]=\"view\"\n        [(viewDate)]=\"viewDate\"\n        (viewDateChange)=\"activeDayIsOpen = false\">\n        Anterior\n      </div>\n      <div\n        class=\"btn btn-outline-secondary\"\n        mwlCalendarToday\n        [(viewDate)]=\"viewDate\">\n        Hoje\n      </div>\n      <div\n        class=\"btn btn-primary\"\n        mwlCalendarNextView\n        [view]=\"view\"\n        [(viewDate)]=\"viewDate\"\n        (viewDateChange)=\"activeDayIsOpen = false\">\n        Próximo\n      </div>\n    </div>\n  </div>\n  <div class=\"col-md-4\">\n    <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>\n  </div>\n  <div class=\"col-md-4\">\n    <div class=\"btn-group\">\n      <div\n        class=\"btn btn-primary\"\n        (click)=\"view = CalendarView.Month\"\n        [class.active]=\"view === CalendarView.Month\">\n        Mês\n      </div>\n      <div\n        class=\"btn btn-primary\"\n        (click)=\"view = CalendarView.Week\"\n        [class.active]=\"view === CalendarView.Week\">\n        Semana\n      </div>\n      <div\n        class=\"btn btn-primary\"\n        (click)=\"view = CalendarView.Day\"\n        [class.active]=\"view === CalendarView.Day\">\n        Dia\n      </div>\n    </div>\n  </div>\n</div>\n<br>\n<div [ngSwitch]=\"view\">\n  <mwl-calendar-month-view\n    *ngSwitchCase=\"CalendarView.Month\"\n    [viewDate]=\"viewDate\"\n    [events]=\"events\"\n    [refresh]=\"refresh\"\n    [activeDayIsOpen]=\"activeDayIsOpen\"\n    (dayClicked)=\"dayClicked($event.day)\"\n    (eventClicked)=\"handleEvent('Clicked', $event.event)\"\n    (eventTimesChanged)=\"eventTimesChanged($event)\">\n  </mwl-calendar-month-view>\n  <mwl-calendar-week-view\n    *ngSwitchCase=\"CalendarView.Week\"\n    [viewDate]=\"viewDate\"\n    [events]=\"events\"\n    [refresh]=\"refresh\"\n    (eventClicked)=\"handleEvent('Clicked', $event.event)\"\n    (eventTimesChanged)=\"eventTimesChanged($event)\">\n  </mwl-calendar-week-view>\n  <mwl-calendar-day-view\n    *ngSwitchCase=\"CalendarView.Day\"\n    [viewDate]=\"viewDate\"\n    [events]=\"events\"\n    [refresh]=\"refresh\"\n    (eventClicked)=\"handleEvent('Clicked', $event.event)\"\n    (eventTimesChanged)=\"eventTimesChanged($event)\">\n  </mwl-calendar-day-view>\n</div>\n\n<br><br><br>\n\n<h3>\n  Consultas\n  <button\n    class=\"btn btn-primary pull-right\"\n    (click)=\"addEvent()\">\n    Add nova\n  </button>\n  <div class=\"clearfix\"></div>\n</h3>\n\n<table class=\"table table-bordered\">\n\n  <thead>\n    <tr>\n      <th>Paciente</th>\n      <th>Data</th>\n      <th>Remove</th>\n    </tr>\n  </thead>\n\n  <tbody>\n    <tr *ngFor=\"let event of events; let index = index\">\n      <td>\n        <input\n          type=\"text\"\n          class=\"form-control\"\n          [(ngModel)]=\"event.title\"\n          (keyup)=\"refresh.next()\">\n      </td>\n      <td>\n        <input\n          class=\"form-control\"\n          type=\"text\"\n          mwlFlatpickr\n          [(ngModel)]=\"event.start\"\n          (ngModelChange)=\"event.start\"\n          [altInput]=\"true\"\n          [convertModelValue]=\"true\"\n          [enableTime]=\"true\"\n          dateFormat=\"Y-m-dTH:i\"\n          altFormat=\"F j, Y H:i\"\n          placeholder=\"Not set\">\n      </td>\n      <td>\n        <button\n          class=\"btn btn-danger\"\n          (click)=\"delete(event.id)\">\n          Delete\n        </button>\n      </td>\n    </tr>\n  </tbody>\n\n</table>\n"
+module.exports = "<ng-template #modalContent let-close=\"close\">\n  <div class=\"modal-header\">\n    <h5 class=\"modal-title\">Event action occurred</h5>\n    <button type=\"button\" class=\"close\" (click)=\"close()\">\n      <span aria-hidden=\"true\">&times;</span>\n    </button>\n  </div>\n  <div class=\"modal-body\">\n    <div>\n      Action:\n      <pre>{{ modalData?.action }}</pre>\n    </div>\n    <div>\n      Event:\n      <pre>{{ modalData?.event | json }}</pre>\n    </div>\n  </div>\n  <div class=\"modal-footer\">\n    <button type=\"button\" class=\"btn btn-outline-secondary\" (click)=\"close()\">OK</button>\n  </div>\n</ng-template>\n\n<div class=\"row text-center pre\">\n  <div class=\"col-md-4\">\n    <label>Médico:</label>\n    <select class=\"form-control\" name=\"doctor\" id=\"doctor\" [(ngModel)]=\"doctor1\" (change)=\"commitments()\">\n      <option *ngFor=\"let doctor of doctorss\" value=\"{{ doctor.id }}\">{{ doctor.name }}</option>\n    </select>\n  </div>\n</div>\n<br>\n\n<div class=\"row text-center\">\n  <div class=\"col-md-4\">\n    <div class=\"btn-group\">\n      <div\n        class=\"btn btn-primary\"\n        mwlCalendarPreviousView\n        [view]=\"view\"\n        [(viewDate)]=\"viewDate\"\n        (viewDateChange)=\"activeDayIsOpen = false\">\n        Anterior\n      </div>\n      <div\n        class=\"btn btn-outline-secondary\"\n        id=\"today\"\n        mwlCalendarToday\n        [(viewDate)]=\"viewDate\">\n        Hoje\n      </div>\n      <div\n        class=\"btn btn-primary\"\n        mwlCalendarNextView\n        [view]=\"view\"\n        [(viewDate)]=\"viewDate\"\n        (viewDateChange)=\"activeDayIsOpen = false\">\n        Próximo\n      </div>\n    </div>\n  </div>\n  <div class=\"col-md-4\">\n    <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>\n  </div>\n  <div class=\"col-md-4\">\n    <div class=\"btn-group\">\n      <div\n        class=\"btn btn-primary\"\n        (click)=\"view = CalendarView.Month\"\n        [class.active]=\"view === CalendarView.Month\">\n        Mês\n      </div>\n      <div\n        class=\"btn btn-primary\"\n        (click)=\"view = CalendarView.Week\"\n        [class.active]=\"view === CalendarView.Week\">\n        Semana\n      </div>\n      <div\n        class=\"btn btn-primary\"\n        (click)=\"view = CalendarView.Day\"\n        [class.active]=\"view === CalendarView.Day\">\n        Dia\n      </div>\n    </div>\n  </div>\n</div>\n<br>\n<div [ngSwitch]=\"view\">\n  <mwl-calendar-month-view\n    *ngSwitchCase=\"CalendarView.Month\"\n    [viewDate]=\"viewDate\"\n    [events]=\"events\"\n    [refresh]=\"refresh\"\n    [activeDayIsOpen]=\"activeDayIsOpen\"\n    (dayClicked)=\"dayClicked($event.day)\"\n    (eventClicked)=\"handleEvent('Clicked', $event.event)\"\n    (eventTimesChanged)=\"eventTimesChanged($event)\">\n  </mwl-calendar-month-view>\n  <mwl-calendar-week-view\n    *ngSwitchCase=\"CalendarView.Week\"\n    [viewDate]=\"viewDate\"\n    [events]=\"events\"\n    [refresh]=\"refresh\"\n    (eventClicked)=\"handleEvent('Clicked', $event.event)\"\n    (eventTimesChanged)=\"eventTimesChanged($event)\">\n  </mwl-calendar-week-view>\n  <mwl-calendar-day-view\n    *ngSwitchCase=\"CalendarView.Day\"\n    [viewDate]=\"viewDate\"\n    [events]=\"events\"\n    [refresh]=\"refresh\"\n    (eventClicked)=\"handleEvent('Clicked', $event.event)\"\n    (eventTimesChanged)=\"eventTimesChanged($event)\">\n  </mwl-calendar-day-view>\n</div>\n\n<br><br><br>\n\n<div *ngIf=\"alertNew\" class=\"col-md-12\">\n  <span class=\"alert alert-danger\">Selecione a data, o médico e o paciente que irá consultar.</span>\n  <br><br>\n</div>\n\n<h3>\n  Consultas\n\n  <table class=\"table table-bordered\">\n    <tr>\n      <td>\n        <label>Data da Consulta</label>\n        <input\n          class=\"form-control\"\n          type=\"text\"\n          mwlFlatpickr\n          [(ngModel)]=\"dateEvent\"\n          [altInput]=\"true\"\n          [enableTime]=\"true\"\n          dateFormat=\"Y-m-d H:i\"\n          altFormat=\"F j, Y H:i\"\n          placeholder=\"Selecione a data\">\n      </td>\n      <td>\n        <label>Paciente</label>\n        <select class=\"form-control\" name=\"patient\" id=\"patient\" [(ngModel)]=\"patient1\" [disabled]=\"!dateEvent\">\n          <option *ngFor=\"let patientt of patientss\" value=\"{{ patientt.id }}\">{{ patientt.name }}</option>\n        </select>\n      </td>\n      <td>\n        <button\n          class=\"btn btn-primary pull-center\"\n          (click)=\"addEvent()\" style=\"margin-top: 40px\">\n          Add nova\n        </button>\n      </td>\n    </tr>\n  </table>\n\n\n  <div class=\"clearfix\"></div>\n</h3>\n\n<table class=\"table table-bordered\">\n\n  <thead>\n    <tr>\n      <th>Paciente</th>\n      <th>Data</th>\n      <th>Remove</th>\n    </tr>\n  </thead>\n\n  <tbody>\n    <tr *ngFor=\"let event of events; let index = index\">\n      <td>\n        <input\n          type=\"text\"\n          class=\"form-control\"\n          [(ngModel)]=\"event.title\"\n          (keyup)=\"refresh.next()\">\n      </td>\n      <td>\n        <input\n          class=\"form-control\"\n          type=\"text\"\n          mwlFlatpickr\n          [(ngModel)]=\"event.start\"\n          (ngModelChange)=\"event.start\"\n          [altInput]=\"true\"\n          [convertModelValue]=\"true\"\n          [enableTime]=\"true\"\n          dateFormat=\"Y-m-dTH:i\"\n          altFormat=\"F j, Y H:i\"\n          placeholder=\"Not set\">\n      </td>\n      <td>\n        <button\n          class=\"btn btn-danger\"\n          (click)=\"delete(event.id)\">\n          Delete\n        </button>\n      </td>\n    </tr>\n  </tbody>\n\n</table>\n"
 
 /***/ }),
 
