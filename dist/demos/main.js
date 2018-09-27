@@ -5480,7 +5480,6 @@ var DemoComponent = /** @class */ (function () {
             _this.refresh.next();
         })
             .catch(function (error) {
-            console.error(error.status);
         });
     };
     DemoComponent.prototype.delete = function (id) {

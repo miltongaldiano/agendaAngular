@@ -1,5 +1,27 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([["common"],{
 
+/***/ "./node_modules/raw-loader/index.js!./src/app/demo-modules/draggable-events/template.html":
+/*!***************************************************************************************!*\
+  !*** ./node_modules/raw-loader!./src/app/demo-modules/draggable-events/template.html ***!
+  \***************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<mwl-demo-utils-calendar-header\n  [(view)]=\"view\"\n  [(viewDate)]=\"viewDate\">\n</mwl-demo-utils-calendar-header>\n\n<div [ngSwitch]=\"view\">\n  <mwl-calendar-month-view\n    *ngSwitchCase=\"'month'\"\n    [viewDate]=\"viewDate\"\n    [events]=\"events\"\n    [activeDayIsOpen]=\"true\"\n    [refresh]=\"refresh\"\n    (eventTimesChanged)=\"eventTimesChanged($event)\">\n  </mwl-calendar-month-view>\n  <mwl-calendar-week-view\n    *ngSwitchCase=\"'week'\"\n    [viewDate]=\"viewDate\"\n    [events]=\"events\"\n    [refresh]=\"refresh\"\n    (eventTimesChanged)=\"eventTimesChanged($event)\">\n  </mwl-calendar-week-view>\n  <mwl-calendar-day-view\n    *ngSwitchCase=\"'day'\"\n    [viewDate]=\"viewDate\"\n    [events]=\"events\"\n    [refresh]=\"refresh\"\n    (eventTimesChanged)=\"eventTimesChanged($event)\">\n  </mwl-calendar-day-view>\n</div>"
+
+/***/ }),
+
+/***/ "./node_modules/raw-loader/index.js!./src/app/demo-modules/editable-deletable-events/template.html":
+/*!************************************************************************************************!*\
+  !*** ./node_modules/raw-loader!./src/app/demo-modules/editable-deletable-events/template.html ***!
+  \************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<mwl-demo-utils-calendar-header\n  [(view)]=\"view\"\n  [(viewDate)]=\"viewDate\">\n</mwl-demo-utils-calendar-header>\n\n<div [ngSwitch]=\"view\">\n  <mwl-calendar-month-view\n    *ngSwitchCase=\"'month'\"\n    [viewDate]=\"viewDate\"\n    [events]=\"events\"\n    [activeDayIsOpen]=\"true\">\n  </mwl-calendar-month-view>\n  <mwl-calendar-week-view\n    *ngSwitchCase=\"'week'\"\n    [viewDate]=\"viewDate\"\n    [events]=\"events\">\n  </mwl-calendar-week-view>\n  <mwl-calendar-day-view\n    *ngSwitchCase=\"'day'\"\n    [viewDate]=\"viewDate\"\n    [events]=\"events\">\n  </mwl-calendar-day-view>\n</div>"
+
+/***/ }),
+
 /***/ "./node_modules/raw-loader/index.js!./src/app/demo-modules/month-view-badge-total/template.html":
 /*!*********************************************************************************************!*\
   !*** ./node_modules/raw-loader!./src/app/demo-modules/month-view-badge-total/template.html ***!
@@ -270,17 +292,6 @@ module.exports = "<mwl-demo-utils-calendar-header\n  [(view)]=\"view\"\n  [(view
 
 /***/ }),
 
-/***/ "./src/app/demo-modules/draggable-events/template.html":
-/*!*************************************************************!*\
-  !*** ./src/app/demo-modules/draggable-events/template.html ***!
-  \*************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "<mwl-demo-utils-calendar-header\n  [(view)]=\"view\"\n  [(viewDate)]=\"viewDate\">\n</mwl-demo-utils-calendar-header>\n\n<div [ngSwitch]=\"view\">\n  <mwl-calendar-month-view\n    *ngSwitchCase=\"'month'\"\n    [viewDate]=\"viewDate\"\n    [events]=\"events\"\n    [activeDayIsOpen]=\"true\"\n    [refresh]=\"refresh\"\n    (eventTimesChanged)=\"eventTimesChanged($event)\">\n  </mwl-calendar-month-view>\n  <mwl-calendar-week-view\n    *ngSwitchCase=\"'week'\"\n    [viewDate]=\"viewDate\"\n    [events]=\"events\"\n    [refresh]=\"refresh\"\n    (eventTimesChanged)=\"eventTimesChanged($event)\">\n  </mwl-calendar-week-view>\n  <mwl-calendar-day-view\n    *ngSwitchCase=\"'day'\"\n    [viewDate]=\"viewDate\"\n    [events]=\"events\"\n    [refresh]=\"refresh\"\n    (eventTimesChanged)=\"eventTimesChanged($event)\">\n  </mwl-calendar-day-view>\n</div>"
-
-/***/ }),
-
 /***/ "./src/app/demo-modules/draggable-external-events/template.html":
 /*!**********************************************************************!*\
   !*** ./src/app/demo-modules/draggable-external-events/template.html ***!
@@ -289,17 +300,6 @@ module.exports = "<mwl-demo-utils-calendar-header\n  [(view)]=\"view\"\n  [(view
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"row\">\n\n  <div class=\"col-md-3\">\n    <div\n      class=\"card\"\n      mwlDroppable\n      (drop)=\"externalDrop($event.dropData.event)\"\n      dragOverClass=\"drag-over\">\n      <div class=\"card-body\">\n        <p *ngIf=\"externalEvents.length === 0\"><em>No events added</em></p>\n        <ul>\n          <li\n            *ngFor=\"let event of externalEvents\"\n            mwlDraggable\n            [dropData]=\"{event: event}\"\n            dragActiveClass=\"drag-active\">\n            <a\n              href=\"javascript:;\"\n              [style.color]=\"event.color.primary\">\n              {{ event.title }}\n            </a>\n          </li>\n        </ul>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"col-md-9\">\n    <mwl-demo-utils-calendar-header\n      [(view)]=\"view\"\n      [(viewDate)]=\"viewDate\">\n    </mwl-demo-utils-calendar-header>\n\n    <div [ngSwitch]=\"view\">\n      <mwl-calendar-month-view\n        *ngSwitchCase=\"CalendarView.Month\"\n        [viewDate]=\"viewDate\"\n        [events]=\"events\"\n        [activeDayIsOpen]=\"activeDayIsOpen\"\n        [refresh]=\"refresh\"\n        (eventTimesChanged)=\"eventDropped($event)\">\n      </mwl-calendar-month-view>\n      <mwl-calendar-week-view\n        *ngSwitchCase=\"CalendarView.Week\"\n        [viewDate]=\"viewDate\"\n        [events]=\"events\"\n        [refresh]=\"refresh\"\n        [snapDraggedEvents]=\"false\"\n        (eventTimesChanged)=\"eventDropped($event)\">\n      </mwl-calendar-week-view>\n      <mwl-calendar-day-view\n        *ngSwitchCase=\"CalendarView.Day\"\n        [viewDate]=\"viewDate\"\n        [events]=\"events\"\n        [refresh]=\"refresh\"\n        [snapDraggedEvents]=\"false\"\n        (eventTimesChanged)=\"eventDropped($event)\">\n      </mwl-calendar-day-view>\n    </div>\n  </div>\n\n</div>\n"
-
-/***/ }),
-
-/***/ "./src/app/demo-modules/editable-deletable-events/template.html":
-/*!**********************************************************************!*\
-  !*** ./src/app/demo-modules/editable-deletable-events/template.html ***!
-  \**********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "<mwl-demo-utils-calendar-header\n  [(view)]=\"view\"\n  [(viewDate)]=\"viewDate\">\n</mwl-demo-utils-calendar-header>\n\n<div [ngSwitch]=\"view\">\n  <mwl-calendar-month-view\n    *ngSwitchCase=\"'month'\"\n    [viewDate]=\"viewDate\"\n    [events]=\"events\"\n    [activeDayIsOpen]=\"true\">\n  </mwl-calendar-month-view>\n  <mwl-calendar-week-view\n    *ngSwitchCase=\"'week'\"\n    [viewDate]=\"viewDate\"\n    [events]=\"events\">\n  </mwl-calendar-week-view>\n  <mwl-calendar-day-view\n    *ngSwitchCase=\"'day'\"\n    [viewDate]=\"viewDate\"\n    [events]=\"events\">\n  </mwl-calendar-day-view>\n</div>"
 
 /***/ }),
 

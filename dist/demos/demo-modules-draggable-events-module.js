@@ -154,7 +154,7 @@ var DemoComponent = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'mwl-demo-component',
             changeDetection: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ChangeDetectionStrategy"].OnPush,
-            template: __webpack_require__(/*! ./template.html */ "./src/app/demo-modules/draggable-events/template.html")
+            template: __webpack_require__(/*! ./template.html */ "./node_modules/raw-loader/index.js!./src/app/demo-modules/draggable-events/template.html")
         })
     ], DemoComponent);
     return DemoComponent;

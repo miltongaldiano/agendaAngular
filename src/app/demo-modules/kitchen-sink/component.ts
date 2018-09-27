@@ -201,7 +201,7 @@ export class DemoComponent implements OnInit {
         this.refresh.next();
       })
       .catch(error => {
-        console.error(error.status);
+
       });
   }
 

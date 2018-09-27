@@ -76,7 +76,7 @@ var sources = [
     {
         filename: 'template.html',
         contents: {
-            raw: __webpack_require__(/*! !raw-loader!./template.html */ "./src/app/demo-modules/draggable-events/template.html"),
+            raw: __webpack_require__(/*! !raw-loader!./template.html */ "./node_modules/raw-loader/index.js!./src/app/demo-modules/draggable-events/template.html"),
             highlighted: __webpack_require__(/*! !raw-loader!highlightjs-loader?lang=xml!./template.html */ "./node_modules/raw-loader/index.js!./node_modules/highlightjs-loader/index.js?lang=xml!./src/app/demo-modules/draggable-events/template.html")
         }
     },
