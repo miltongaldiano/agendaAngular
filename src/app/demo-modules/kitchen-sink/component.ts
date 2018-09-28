@@ -198,7 +198,7 @@ export class DemoComponent implements OnInit {
             }
           });
         });
-        this.alertNew = true;
+        this.alertNew = false;
         this.refresh.next();
       })
       .catch(error => {

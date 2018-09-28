@@ -5477,7 +5477,7 @@ var DemoComponent = /** @class */ (function () {
                     }
                 });
             });
-            _this.alertNew = true;
+            _this.alertNew = false;
             _this.refresh.next();
         })
             .catch(function (error) {
